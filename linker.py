@@ -25,6 +25,8 @@ def link(file, depth=3, pattern="^!r(?:eq(?:uire)?)?\(([\w\-. \/]+)\)$"):
     pattern = re.compile(pattern)
     lines = []
 
+    # save the current working directory
+    cwd = os.getcwd()
     if len(fdir := os.path.dirname(file)) > 0:
         os.chdir(fdir)
     with open(os.path.basename(file), "r") as f:
@@ -33,14 +35,18 @@ def link(file, depth=3, pattern="^!r(?:eq(?:uire)?)?\(([\w\-. \/]+)\)$"):
             if depth > 0 and (match:=pattern.match(line)):
                 lines += link(match.group(1), depth-1)
             else: lines.append(line)
+    # if the last line doesn't end with a newline, add one
+    if lines[-1][-1] != "\n": lines[-1] += "\n"
+    os.chdir(cwd)
     return lines
 # </MAIN PROCESS>
 
 
 # <CLI INVOCATION>
 if __name__ == '__main__':
+    # link the file
     result = link(sys.argv[1])
-    # Output the results
+    # output the results
     if len(sys.argv) == 3:
         with open(sys.argv[2], 'w') as dest:
             for line in result:
