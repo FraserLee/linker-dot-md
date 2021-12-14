@@ -32,7 +32,7 @@ def link(file_path, depth=3, pattern='^!r(?:eq(?:uire)?)?\(([\w\-. \/]+)\)$'):
                 else: lines.append(line)
 
     # if the last line doesn't end with a newline, append one
-    if lines[-1][-1] != '\n': lines[-1] += '\n'
+    if len(lines[-1]) > 0 and lines[-1][-1] != '\n': lines[-1] += '\n'
 
     os.chdir(cwd) # cd back to the start
     return lines
