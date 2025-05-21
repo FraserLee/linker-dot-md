@@ -3,7 +3,7 @@ import re
 import sys
 import os
 
-def link(file_path, depth=3, pattern='^!r(?:eq(?:uire)?)?\(([\w\-. \/]+)\)$'):
+def link(file_path, depth=3, pattern=r'^!r(?:eq(?:uire)?)?\(([\w\-. \/]+)\)$'):
     """
     Input: the path to a file
     Output: the resulting file as a list of strings
